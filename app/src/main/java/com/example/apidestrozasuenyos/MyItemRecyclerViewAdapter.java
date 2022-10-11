@@ -8,20 +8,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.apidestrozasuenyos.placeholder.PlaceholderContent.PlaceholderItem;
+import com.example.apidestrozasuenyos.clases.UniversitaContent;
+import com.example.apidestrozasuenyos.clases.UniversitaContent.Universita;
 import com.example.apidestrozasuenyos.databinding.FragmentUniversiraresBinding;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
- * TODO: Replace the implementation with code for your data type.
- */
+
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<PlaceholderItem> mValues;
+    private final List<Universita> mValues;
 
-    public MyItemRecyclerViewAdapter(List<PlaceholderItem> items) {
+    public MyItemRecyclerViewAdapter(List<Universita> items) {
         mValues = items;
     }
 
@@ -34,9 +32,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.Nombre.setText(mValues.get(position).content);
     }
 
     @Override
@@ -45,20 +41,18 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public PlaceholderItem mItem;
-        private Button link;
+        public TextView Nombre;
+        private Button link; //necesita k en onclick sea webview
 
         public ViewHolder(FragmentUniversiraresBinding binding) {
             super(binding.getRoot());
-            mIdView = binding.itemNumber;
-            mContentView = binding.content;
+            Nombre = binding.Nombre;
+            link = binding.link;
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + Nombre.getText() + "'";
         }
 
         @Override
