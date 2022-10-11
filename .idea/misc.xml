@@ -5,7 +5,9 @@
       <map>
         <entry key="..\:/Users/2dam3.HZ114469/AndroidStudioProjects/APIdestrozasuenyos/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/2dam3.HZ114469/AndroidStudioProjects/APIdestrozasuenyos/app/src/main/res/layout/fragment_buscador.xml" value="0.3087719298245614" />
-        <entry key="..\:/Users/2dam3.HZ114469/AndroidStudioProjects/APIdestrozasuenyos/app/src/main/res/layout/fragment_universirares_list.xml" value="0.2969298245614035" />
+        <entry key="..\:/Users/2dam3.HZ114469/AndroidStudioProjects/APIdestrozasuenyos/app/src/main/res/layout/fragment_container_universirares.xml" value="0.25" />
+        <entry key="..\:/Users/2dam3.HZ114469/AndroidStudioProjects/APIdestrozasuenyos/app/src/main/res/layout/fragment_universirares.xml" value="0.25" />
+        <entry key="..\:/Users/2dam3.HZ114469/AndroidStudioProjects/APIdestrozasuenyos/app/src/main/res/layout/fragment_universirares_list.xml" value="0.25" />
       </map>
     </option>
   </component>
