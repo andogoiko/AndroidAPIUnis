@@ -26,8 +26,6 @@ public class ContainerUniversirares extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private  List<UniversitaContent.Universita> unis;
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -36,9 +34,6 @@ public class ContainerUniversirares extends Fragment {
         // Required empty public constructor
     }
 
-    public ContainerUniversirares(List<UniversitaContent.Universita> unis) {
-        this.unis = unis;
-    }
 
     /**
      * Use this factory method to create a new instance of

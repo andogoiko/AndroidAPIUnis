@@ -2,6 +2,7 @@ package com.example.apidestrozasuenyos.utility;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.os.Bundle;
 
 import com.example.apidestrozasuenyos.MainActivity;
 import com.example.apidestrozasuenyos.MyItemRecyclerViewAdapter;
@@ -15,6 +16,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -69,10 +71,6 @@ public class AsyncTaskRunnerApi extends AsyncTask<String, String, ArrayList<Univ
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        MyItemRecyclerViewAdapter awa = new MyItemRecyclerViewAdapter(unis);
-
-        awa.addList(unis);
 
         return unis;
     }

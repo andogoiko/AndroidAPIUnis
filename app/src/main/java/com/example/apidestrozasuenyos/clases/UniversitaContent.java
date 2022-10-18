@@ -1,5 +1,8 @@
 package com.example.apidestrozasuenyos.clases;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +35,7 @@ public class UniversitaContent {
     /**
      * A placeholder item representing a piece of content.
      */
-    public static class Universita {
+    public static class Universita implements Parcelable {
         public final String pais;
         public final String nombre;
         public final String web;
@@ -43,9 +46,39 @@ public class UniversitaContent {
             this.web = web;
         }
 
+        protected Universita(Parcel in) {
+            pais = in.readString();
+            nombre = in.readString();
+            web = in.readString();
+        }
+
+        public static final Creator<Universita> CREATOR = new Creator<Universita>() {
+            @Override
+            public Universita createFromParcel(Parcel in) {
+                return new Universita(in);
+            }
+
+            @Override
+            public Universita[] newArray(int size) {
+                return new Universita[size];
+            }
+        };
+
         @Override
         public String toString() {
             return pais + " " + nombre + " " + web;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeString(pais);
+            parcel.writeString(nombre);
+            parcel.writeString(web);
         }
     }
 }

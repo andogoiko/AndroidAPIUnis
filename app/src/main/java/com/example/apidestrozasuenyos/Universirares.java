@@ -1,6 +1,8 @@
 package com.example.apidestrozasuenyos;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -27,6 +29,7 @@ import com.example.apidestrozasuenyos.clases.UniversitaContent.Universita;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,22 +38,18 @@ import java.util.List;
  */
 public class Universirares extends Fragment {
 
-    private List<Universita> unis;
-
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+
+    private ArrayList<Universita> unisSelec = null;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public Universirares() {
-    }
-
-    public Universirares(List<Universita> unis) {
-        this.unis = unis;
     }
 
     // TODO: Customize parameter initialization
@@ -70,12 +69,37 @@ public class Universirares extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+        Bundle bundle = getArguments();
+
+
+
+        if (bundle != null) {
+            unisSelec = bundle.getParcelable("Unis");
+        }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_universirares_list, container, false);
+
+
+        Bundle bundle = getArguments();
+
+        if (bundle != null) {
+
+            unisSelec = (ArrayList<Universita>) bundle.getSerializable("buscUnis");
+
+           /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                unisSelec.forEach(uni -> {
+                    Log.i("parte del recycler", uni.toString());
+                });
+            }*/
+
+        }
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -86,8 +110,9 @@ public class Universirares extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(unis));
+            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(unisSelec));
         }
+
 
         return view;
     }

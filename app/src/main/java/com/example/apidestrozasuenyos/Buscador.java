@@ -105,25 +105,51 @@ public class Buscador extends Fragment {
 
                 AsyncTaskRunnerApi hiloApi = new AsyncTaskRunnerApi((MainActivity) view.getContext(), pais, universidad);
 
-                ArrayList<Universita> respUnisFull = null;
+                ArrayList<Universita> unisList = null;
+
+
                 try {
-                    respUnisFull = hiloApi.execute().get();
+                    unisList = hiloApi.execute().get();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                // Create new fragment and transaction
+                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    unisList.forEach(uni -> {
+                        Log.i("buscatroll", uni.toString());
+                    });
+                }*/
+
+                Bundle bundle = new Bundle();
+                //args.putSerializable("buscUnis", unisList);
+
+                Fragment fragment = new Universirares();
+
+                bundle.putSerializable("buscUnis", unisList);
+                fragment.setArguments(bundle);
+
                 FragmentManager fragmentManager = getParentFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.setReorderingAllowed(true);
 
                 // Replace whatever is in the fragment_container view with this fragment
-                transaction.replace(R.id.fcvGeneral, ContainerUniversirares.class, respUnisFull);
+                transaction.replace(R.id.fcvGeneral, fragment, null);
 
                 // Commit the transaction
                 transaction.commit();
+
+                //toFragment.setArguments(args);
+
+                /*getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fcvGeneral, toFragment)
+                        .commit();*/
+
+
+                // Create new fragment and transaction
+
 
             }
         });
