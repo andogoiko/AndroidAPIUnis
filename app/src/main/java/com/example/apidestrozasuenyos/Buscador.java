@@ -123,19 +123,17 @@ public class Buscador extends Fragment {
                 }*/
 
                 Bundle bundle = new Bundle();
-                //args.putSerializable("buscUnis", unisList);
-
-                Fragment fragment = new Universirares();
 
                 bundle.putSerializable("buscUnis", unisList);
-                fragment.setArguments(bundle);
+
+                getParentFragmentManager().setFragmentResult("Bundlesito", bundle);
 
                 FragmentManager fragmentManager = getParentFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.setReorderingAllowed(true);
 
                 // Replace whatever is in the fragment_container view with this fragment
-                transaction.replace(R.id.fcvGeneral, fragment, null);
+                transaction.replace(R.id.fcvGeneral, ContainerUniversirares.class, null);
 
                 // Commit the transaction
                 transaction.commit();

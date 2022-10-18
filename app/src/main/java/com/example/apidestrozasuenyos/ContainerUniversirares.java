@@ -1,17 +1,22 @@
 package com.example.apidestrozasuenyos;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.apidestrozasuenyos.clases.UniversitaContent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +34,8 @@ public class ContainerUniversirares extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ArrayList<UniversitaContent.Universita> unisSelec = null;
 
     public ContainerUniversirares() {
         // Required empty public constructor
@@ -60,6 +67,17 @@ public class ContainerUniversirares extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        getParentFragmentManager().setFragmentResultListener("Bundlesito", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
+                // We use a String here, but any type that can be put in a Bundle is supported
+                unisSelec = (ArrayList<UniversitaContent.Universita>) bundle.getSerializable("buscUnis");
+
+                // Do something with the result...
+            }
+        });
+
     }
 
     @Override
@@ -68,6 +86,13 @@ public class ContainerUniversirares extends Fragment {
 
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_container_universirares, container, false);
+
+        Bundle result = new Bundle();
+        result.putSerializable("lasUnis", unisSelec);
+
+        // The child fragment needs to still set the result on its parent fragment manager
+        getChildFragmentManager().setFragmentResult("requestKey", result);
+
 
         view.findViewById(R.id.bVolver).setOnClickListener(new View.OnClickListener() {
             @Override

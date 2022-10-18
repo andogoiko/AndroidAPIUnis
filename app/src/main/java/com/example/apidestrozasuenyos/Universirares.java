@@ -2,11 +2,14 @@ package com.example.apidestrozasuenyos;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -70,13 +73,13 @@ public class Universirares extends Fragment {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
 
-        Bundle bundle = getArguments();
-
-
-
-        if (bundle != null) {
-            unisSelec = bundle.getParcelable("Unis");
-        }
+        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
+                unisSelec = (ArrayList<UniversitaContent.Universita>) bundle.getSerializable("lasUnis");
+                // Do something with the result..
+            }
+        });
 
 
     }
@@ -86,20 +89,13 @@ public class Universirares extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_universirares_list, container, false);
 
-
-        Bundle bundle = getArguments();
-
-        if (bundle != null) {
-
-            unisSelec = (ArrayList<Universita>) bundle.getSerializable("buscUnis");
-
-           /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                unisSelec.forEach(uni -> {
-                    Log.i("parte del recycler", uni.toString());
-                });
-            }*/
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            unisSelec.forEach(uni -> {
+                Log.i("parte del recycler", uni.toString());
+            });
         }
+
+
 
         // Set the adapter
         if (view instanceof RecyclerView) {
