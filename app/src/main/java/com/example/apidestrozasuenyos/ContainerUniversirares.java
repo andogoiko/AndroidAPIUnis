@@ -10,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.apidestrozasuenyos.clases.UniversitaContent;
+
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ContainerUniversirares#newInstance} factory method to
@@ -22,12 +26,18 @@ public class ContainerUniversirares extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private  List<UniversitaContent.Universita> unis;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     public ContainerUniversirares() {
         // Required empty public constructor
+    }
+
+    public ContainerUniversirares(List<UniversitaContent.Universita> unis) {
+        this.unis = unis;
     }
 
     /**

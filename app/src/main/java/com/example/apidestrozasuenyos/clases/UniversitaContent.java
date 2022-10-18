@@ -33,19 +33,19 @@ public class UniversitaContent {
      * A placeholder item representing a piece of content.
      */
     public static class Universita {
-        public final String id;
-        public final String content;
-        public final String details;
+        public final String pais;
+        public final String nombre;
+        public final String web;
 
-        public Universita(String id, String content, String details) {
-            this.id = id;
-            this.content = content;
-            this.details = details;
+        public Universita(String pais, String nombre, String web) {
+            this.pais = pais;
+            this.nombre = nombre;
+            this.web = web;
         }
 
         @Override
         public String toString() {
-            return content;
+            return pais + " " + nombre + " " + web;
         }
     }
 }

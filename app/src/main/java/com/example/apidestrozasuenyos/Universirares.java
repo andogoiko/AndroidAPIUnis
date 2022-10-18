@@ -22,15 +22,20 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.apidestrozasuenyos.clases.UniversitaContent;
+import com.example.apidestrozasuenyos.clases.UniversitaContent.Universita;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 
 /**
  * A fragment representing a list of Items.
  */
 public class Universirares extends Fragment {
+
+    private List<Universita> unis;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -42,6 +47,10 @@ public class Universirares extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public Universirares() {
+    }
+
+    public Universirares(List<Universita> unis) {
+        this.unis = unis;
     }
 
     // TODO: Customize parameter initialization
@@ -77,7 +86,7 @@ public class Universirares extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(UniversitaContent.Unis));
+            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(unis));
         }
 
         return view;

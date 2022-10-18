@@ -17,10 +17,10 @@ import java.util.List;
 
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Universita> mValues;
+    private List<Universita> mValues;
 
-    public MyItemRecyclerViewAdapter(List<Universita> items) {
-        mValues = items;
+    public MyItemRecyclerViewAdapter(List<Universita> mValues) {
+        mValues = mValues;
     }
 
     @Override
@@ -32,12 +32,22 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.Nombre.setText(mValues.get(position).content);
+        holder.Nombre.setText(mValues.get(position).nombre);
+    }
+
+    public void addList(List<Universita> mValues){
+        this.mValues = mValues;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+
+        if(this.mValues == null){
+            return 0;
+        }
+
+        return this.mValues.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

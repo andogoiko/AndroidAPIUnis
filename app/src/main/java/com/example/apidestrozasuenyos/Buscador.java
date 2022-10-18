@@ -1,18 +1,32 @@
 package com.example.apidestrozasuenyos;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.apidestrozasuenyos.clases.UniversitaContent.Universita;
 import com.example.apidestrozasuenyos.utility.AsyncTaskRunnerApi;
+
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,6 +85,7 @@ public class Buscador extends Fragment {
         Button buscar = (Button) view.findViewById(R.id.bBuscar);
 
         buscar.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
 
@@ -90,7 +105,14 @@ public class Buscador extends Fragment {
 
                 AsyncTaskRunnerApi hiloApi = new AsyncTaskRunnerApi((MainActivity) view.getContext(), pais, universidad);
 
-                hiloApi.execute();
+                ArrayList<Universita> respUnisFull = null;
+                try {
+                    respUnisFull = hiloApi.execute().get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 // Create new fragment and transaction
                 FragmentManager fragmentManager = getParentFragmentManager();
@@ -98,7 +120,7 @@ public class Buscador extends Fragment {
                 transaction.setReorderingAllowed(true);
 
                 // Replace whatever is in the fragment_container view with this fragment
-                transaction.replace(R.id.fcvGeneral, ContainerUniversirares.class, null);
+                transaction.replace(R.id.fcvGeneral, ContainerUniversirares.class, respUnisFull);
 
                 // Commit the transaction
                 transaction.commit();

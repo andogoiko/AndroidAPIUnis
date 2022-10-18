@@ -2,20 +2,27 @@ package com.example.apidestrozasuenyos.utility;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.example.apidestrozasuenyos.MainActivity;
+import com.example.apidestrozasuenyos.MyItemRecyclerViewAdapter;
+import com.example.apidestrozasuenyos.Universirares;
+import com.example.apidestrozasuenyos.clases.UniversitaContent.Universita;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AsyncTaskRunnerApi extends AsyncTask<String, String, String> {
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+
+public class AsyncTaskRunnerApi extends AsyncTask<String, String, ArrayList<Universita>> {
 
     private String resp;
+    private ArrayList<Universita> unis = new ArrayList<>();
     ProgressDialog progressDialog;
 
     private MainActivity parentActivity;
@@ -30,24 +37,51 @@ public class AsyncTaskRunnerApi extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected ArrayList<Universita> doInBackground(String... params) {
         publishProgress("Sleeping..."); // Calls onProgressUpdate()
         try {
-            int time = Integer.parseInt(params[0])*1000;
+            //int time = Integer.parseInt(params[0])*1000;
 
-            LeerApi(pais, universidad);
-            resp = "Detenido por " + params[0] + " segundos";
+            resp = LeerApi(pais, universidad);
+            //resp = "Detenido por " + params[0] + " segundos";
         } catch (Exception e) {
             e.printStackTrace();
             resp = e.getMessage();
         }
-        return resp;
+
+        try {
+            JSONArray jsonArray = new JSONArray(resp);
+
+            for (int i=0; i<jsonArray.length(); i++){
+
+                JSONObject jsonObject=jsonArray.getJSONObject(i);
+
+                //limpiamos los links de las webs
+
+                String web = jsonObject.getString("web_pages").substring(2).replace("\\","");
+
+                unis.add(new Universita(
+                        jsonObject.getString("country"),
+                        jsonObject.getString("name"),
+                        web.substring(0, web.indexOf('"')) // algunas tienen más de 1 link, escogemos el primero
+                ));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        MyItemRecyclerViewAdapter awa = new MyItemRecyclerViewAdapter(unis);
+
+        awa.addList(unis);
+
+        return unis;
     }
 
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(ArrayList<Universita> result) {
         // execution of result of Long time consuming operation
+        super.onPostExecute(unis);
         progressDialog.dismiss();
     }
 
@@ -67,14 +101,36 @@ public class AsyncTaskRunnerApi extends AsyncTask<String, String, String> {
     }
 
 
-    private static void LeerApi(String pais, String uni) {
+    private static String LeerApi(String pais, String uni) throws IOException {
 
         pais = pais.replace(' ', '+');
         uni = uni.replace(' ', '+');
 
-        String url = "http://universities.hipolabs.com/search?country=" + pais + "&name=" + uni;
+        StringBuilder result = new StringBuilder();
 
-        StringRequest postResquest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        String urlStr = "http://universities.hipolabs.com/search?country=" + pais + "&name=" + uni;
+
+        URL urlConn = new URL(urlStr);
+
+        HttpURLConnection conn = (HttpURLConnection) urlConn.openConnection();
+
+        conn.setRequestMethod("GET");
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+            for (String line; (line = reader.readLine()) != null; ) {
+                result.append(line);
+            }
+        }finally {
+            conn.disconnect();
+        }
+
+        String respuesta = result.toString();
+
+        return respuesta;
+
+        // al ser asíncronos el asynctask y el volley no se puede, ya que no puedes meter algo asíncrono en algo asíncrono
+
+        /*StringRequest postResquest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -83,6 +139,12 @@ public class AsyncTaskRunnerApi extends AsyncTask<String, String, String> {
                     String title = jsonObject.getString("title");
                     //text.setText(title);
                     //text.setText(jsonObject.getString("body"));
+
+                    View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+                    RecyclerView recyclerView = (RecyclerView) root;
+
+                    recyclerView.setAdapter(new MyItemRecyclerViewAdapter(lista,fm));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -94,7 +156,7 @@ public class AsyncTaskRunnerApi extends AsyncTask<String, String, String> {
                 Log.e("Error", error.getMessage());
             }
         });
-        //Volley.newRequestQueue(this).add(postResquest);
+        //Volley.newRequestQueue(this).add(postResquest);*/
     }
 
 }
