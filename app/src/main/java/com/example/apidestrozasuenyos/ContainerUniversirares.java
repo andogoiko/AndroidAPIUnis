@@ -35,7 +35,8 @@ public class ContainerUniversirares extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ArrayList<UniversitaContent.Universita> unisSelec = null;
+    private String pais = "";
+    private String universidad = "";
 
     public ContainerUniversirares() {
         // Required empty public constructor
@@ -68,16 +69,6 @@ public class ContainerUniversirares extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        getParentFragmentManager().setFragmentResultListener("Bundlesito", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
-                // We use a String here, but any type that can be put in a Bundle is supported
-                unisSelec = (ArrayList<UniversitaContent.Universita>) bundle.getSerializable("buscUnis");
-
-                // Do something with the result...
-            }
-        });
-
     }
 
     @Override
@@ -87,11 +78,25 @@ public class ContainerUniversirares extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_container_universirares, container, false);
 
-        Bundle result = new Bundle();
-        result.putSerializable("lasUnis", unisSelec);
+        getParentFragmentManager().setFragmentResultListener("Bundlesito", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
+                // We use a String here, but any type that can be put in a Bundle is supported
+                pais = bundle.getString("pais");
+                universidad = bundle.getString("universidad");
 
-        // The child fragment needs to still set the result on its parent fragment manager
-        getChildFragmentManager().setFragmentResult("requestKey", result);
+                Log.i("intermedio", pais);
+
+                Bundle result = new Bundle();
+                result.putString("fatherPais", pais);
+                result.putString("fatherUniversidad", universidad);
+
+                // The child fragment needs to still set the result on its parent fragment manager
+                getChildFragmentManager().setFragmentResult("papiBundle", result);
+            }
+        });
+
+
 
 
         view.findViewById(R.id.bVolver).setOnClickListener(new View.OnClickListener() {
@@ -102,6 +107,7 @@ public class ContainerUniversirares extends Fragment {
                 FragmentManager fragmentManager = getParentFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.setReorderingAllowed(true);
+
 
                 // Replace whatever is in the fragment_container view with this fragment
                 transaction.replace(R.id.fcvGeneral, Buscador.class, null);

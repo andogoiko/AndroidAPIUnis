@@ -3,6 +3,7 @@ package com.example.apidestrozasuenyos.utility;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.apidestrozasuenyos.MainActivity;
 import com.example.apidestrozasuenyos.MyItemRecyclerViewAdapter;
@@ -43,6 +44,8 @@ public class AsyncTaskRunnerApi extends AsyncTask<String, String, ArrayList<Univ
         publishProgress("Sleeping..."); // Calls onProgressUpdate()
         try {
             //int time = Integer.parseInt(params[0])*1000;
+
+            Log.i("pais", pais);
 
             resp = LeerApi(pais, universidad);
             //resp = "Detenido por " + params[0] + " segundos";

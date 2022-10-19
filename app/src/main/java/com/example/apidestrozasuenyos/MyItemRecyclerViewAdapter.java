@@ -20,7 +20,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     private List<Universita> mValues;
 
     public MyItemRecyclerViewAdapter(List<Universita> mValues) {
-        mValues = mValues;
+        this.mValues = mValues;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.Nombre.setText(mValues.get(position).nombre);
+        holder.nombre.setText(mValues.get(position).nombre);
     }
 
     public void addList(List<Universita> mValues){
@@ -51,18 +51,19 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView Nombre;
-        private Button link; //necesita k en onclick sea webview
+        public TextView nombre;
+        private Button web; //necesita k en onclick sea webview
 
         public ViewHolder(FragmentUniversiraresBinding binding) {
             super(binding.getRoot());
-            Nombre = binding.Nombre;
-            link = binding.link;
+            nombre = binding.nombre
+            ;
+            web = binding.web;
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + Nombre.getText() + "'";
+            return super.toString() + " '" + nombre.getText() + "'";
         }
 
         @Override

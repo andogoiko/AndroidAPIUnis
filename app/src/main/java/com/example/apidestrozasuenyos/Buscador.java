@@ -84,6 +84,9 @@ public class Buscador extends Fragment {
 
         Button buscar = (Button) view.findViewById(R.id.bBuscar);
 
+        EditText etPais = (EditText)view.findViewById(R.id.etPais);
+        EditText etUni = (EditText)view.findViewById(R.id.etUni);
+
         buscar.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -92,39 +95,16 @@ public class Buscador extends Fragment {
                 String pais = "";
                 String universidad = "";
 
-                EditText etPais = (EditText)view.findViewById(R.id.etPais);
-                EditText etUni = (EditText)view.findViewById(R.id.etUni);
+                pais = etPais.getText().toString();
 
-                if(etPais != null){
-                    pais = etPais.getText().toString();
-                }
-
-                if(etUni != null){
-                    universidad = etUni.getText().toString();
-                }
-
-                AsyncTaskRunnerApi hiloApi = new AsyncTaskRunnerApi((MainActivity) view.getContext(), pais, universidad);
-
-                ArrayList<Universita> unisList = null;
-
-
-                try {
-                    unisList = hiloApi.execute().get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    unisList.forEach(uni -> {
-                        Log.i("buscatroll", uni.toString());
-                    });
-                }*/
+                universidad = etUni.getText().toString();
 
                 Bundle bundle = new Bundle();
 
-                bundle.putSerializable("buscUnis", unisList);
+                bundle.putString("pais", pais);
+                bundle.putString("universidad", universidad);
+
+                Log.i("inicio", bundle.getString("pais"));
 
                 getParentFragmentManager().setFragmentResult("Bundlesito", bundle);
 
@@ -132,8 +112,10 @@ public class Buscador extends Fragment {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.setReorderingAllowed(true);
 
+                ContainerUniversirares container = new ContainerUniversirares();
+
                 // Replace whatever is in the fragment_container view with this fragment
-                transaction.replace(R.id.fcvGeneral, ContainerUniversirares.class, null);
+                transaction.replace(R.id.fcvGeneral, container, null);
 
                 // Commit the transaction
                 transaction.commit();

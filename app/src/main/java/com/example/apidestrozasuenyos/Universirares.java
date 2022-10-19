@@ -28,12 +28,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.apidestrozasuenyos.clases.UniversitaContent;
 import com.example.apidestrozasuenyos.clases.UniversitaContent.Universita;
+import com.example.apidestrozasuenyos.utility.AsyncTaskRunnerApi;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -47,6 +49,9 @@ public class Universirares extends Fragment {
     private int mColumnCount = 1;
 
     private ArrayList<Universita> unisSelec = null;
+
+    private String pais = "";
+    private String universidad = "";
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -73,14 +78,6 @@ public class Universirares extends Fragment {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
 
-        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
-                unisSelec = (ArrayList<UniversitaContent.Universita>) bundle.getSerializable("lasUnis");
-                // Do something with the result..
-            }
-        });
-
 
     }
 
@@ -89,25 +86,48 @@ public class Universirares extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_universirares_list, container, false);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            unisSelec.forEach(uni -> {
-                Log.i("parte del recycler", uni.toString());
-            });
-        }
+        getParentFragmentManager().setFragmentResultListener("papiBundle", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
+                pais = bundle.getString("fatherPais");
+                universidad = bundle.getString("fatherUniversidad");
+
+                AsyncTaskRunnerApi hiloApi = new AsyncTaskRunnerApi((MainActivity) view.getContext(), pais, universidad);
+
+                Log.i("Fin", pais);
+
+                try {
+                    unisSelec = hiloApi.execute().get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    unisSelec.forEach(uni -> {
+                        Log.i("parte del recycler", uni.toString());
+                    });
+                }
 
 
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                // Set the adapter
+                if (view instanceof RecyclerView) {
+                    Context context = view.getContext();
+                    RecyclerView recyclerView = (RecyclerView) view;
+                    if (mColumnCount <= 1) {
+                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                    } else {
+                        recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                    }
+                    recyclerView.setAdapter(new MyItemRecyclerViewAdapter(unisSelec));
+                }
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(unisSelec));
-        }
+        });
+
+
+
 
 
         return view;
