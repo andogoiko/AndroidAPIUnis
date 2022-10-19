@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.apidestrozasuenyos.clases.UniversitaContent;
 
@@ -90,6 +91,10 @@ public class ContainerUniversirares extends Fragment {
                 Bundle result = new Bundle();
                 result.putString("fatherPais", pais);
                 result.putString("fatherUniversidad", universidad);
+
+                TextView khePais = (TextView) view.findViewById(R.id.textView);
+
+                khePais.setText("Universidades de " + pais + ":");
 
                 // The child fragment needs to still set the result on its parent fragment manager
                 getChildFragmentManager().setFragmentResult("papiBundle", result);

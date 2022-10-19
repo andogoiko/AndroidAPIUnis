@@ -19,13 +19,16 @@
             android:text="Volver"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView"
+            app:layout_constraintVertical_bias="0.62" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -35,10 +38,12 @@
             android:name="com.example.apidestrozasuenyos.Universirares"
             android:layout_width="0dp"
             android:layout_height="400dp"
-            app:layout_constraintBottom_toTopOf="@+id/bVolver"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout="@layout/fragment_universirares_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
