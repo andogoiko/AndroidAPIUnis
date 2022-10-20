@@ -1,5 +1,7 @@
 package com.example.apidestrozasuenyos;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -84,8 +86,21 @@ public class Buscador extends Fragment {
 
         Button buscar = (Button) view.findViewById(R.id.bBuscar);
 
+        /* creando el editor de preferencias para guardarlas después */
+
+        Context context = getActivity();
+
+        SharedPreferences.Editor editor = context.getSharedPreferences("busqueda", Context.MODE_PRIVATE).edit();
+
         EditText etPais = (EditText)view.findViewById(R.id.etPais);
         EditText etUni = (EditText)view.findViewById(R.id.etUni);
+
+        /* creando el recolector de preferencias para recogerlas */
+
+        SharedPreferences prefs = context.getSharedPreferences("busqueda", Context.MODE_PRIVATE);
+
+        etPais.setText(prefs.getString("pais", ""));
+        etUni.setText(prefs.getString("uni", ""));
 
         buscar.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -94,6 +109,10 @@ public class Buscador extends Fragment {
 
                 String pais = "";
                 String universidad = "";
+
+                editor.putString("pais", etPais.getText().toString());
+                editor.putString("uni", etUni.getText().toString());
+                editor.apply();
 
                 pais = etPais.getText().toString();
 

@@ -1,5 +1,7 @@
 package com.example.apidestrozasuenyos;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -94,15 +96,20 @@ public class ContainerUniversirares extends Fragment {
 
                 TextView khePais = (TextView) view.findViewById(R.id.textView);
 
-                khePais.setText("Universidades de " + pais + ":");
+                Log.i("pacoporra", "-" + pais + "-");
+
+                if(pais.equals("") && universidad.equals("")){
+                    khePais.setText("Universidades del mundo:");
+                }else if ( universidad.equals("")){
+                    khePais.setText("Universidades de " + pais + ":");
+                }else{
+                    khePais.setText("Universidades de " + universidad + " en " + pais + ":");
+                }
 
                 // The child fragment needs to still set the result on its parent fragment manager
                 getChildFragmentManager().setFragmentResult("papiBundle", result);
             }
         });
-
-
-
 
         view.findViewById(R.id.bVolver).setOnClickListener(new View.OnClickListener() {
             @Override

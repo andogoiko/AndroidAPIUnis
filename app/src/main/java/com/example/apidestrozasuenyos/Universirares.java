@@ -104,11 +104,11 @@ public class Universirares extends Fragment {
                     e.printStackTrace();
                 }
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     unisSelec.forEach(uni -> {
                         Log.i("parte del recycler", uni.toString());
                     });
-                }
+                }*/
 
 
 

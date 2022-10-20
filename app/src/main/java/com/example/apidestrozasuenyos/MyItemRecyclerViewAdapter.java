@@ -2,6 +2,8 @@ package com.example.apidestrozasuenyos;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,16 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.nombre.setText(mValues.get(position).nombre);
+
+        int thisUni = position;
+        holder.web.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Log.i("url", mValues.get(thisUni).web);
+            }
+        });
+
     }
 
     public void addList(List<Universita> mValues){
@@ -56,8 +68,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         public ViewHolder(FragmentUniversiraresBinding binding) {
             super(binding.getRoot());
-            nombre = binding.nombre
-            ;
+            nombre = binding.nombre;
             web = binding.web;
         }
 
