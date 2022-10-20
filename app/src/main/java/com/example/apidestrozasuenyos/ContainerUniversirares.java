@@ -81,22 +81,26 @@ public class ContainerUniversirares extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_container_universirares, container, false);
 
+        // recogiemdo y utilizando internamente los datos del bundle recibido tras ser cargado
+
         getParentFragmentManager().setFragmentResultListener("Bundlesito", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
-                // We use a String here, but any type that can be put in a Bundle is supported
+
+                // recogemos las variables
+
                 pais = bundle.getString("pais");
                 universidad = bundle.getString("universidad");
 
-                Log.i("intermedio", pais);
+                // creamos otro bundle para enviarlo al fragmento hijo
 
                 Bundle result = new Bundle();
                 result.putString("fatherPais", pais);
                 result.putString("fatherUniversidad", universidad);
 
-                TextView khePais = (TextView) view.findViewById(R.id.textView);
+                // modificamos el texto que aparece sobre la lista de unis
 
-                Log.i("pacoporra", "-" + pais + "-");
+                TextView khePais = (TextView) view.findViewById(R.id.textView);
 
                 if(pais.equals("") && universidad.equals("")){
                     khePais.setText("Universidades del mundo:");
@@ -106,10 +110,13 @@ public class ContainerUniversirares extends Fragment {
                     khePais.setText("Universidades de " + universidad + " en " + pais + ":");
                 }
 
-                // The child fragment needs to still set the result on its parent fragment manager
+                // enviamos el bundle al fragmento hijo
+
                 getChildFragmentManager().setFragmentResult("papiBundle", result);
             }
         });
+
+        // botón para volver a la anterior oantalla (que es un fragment)
 
         view.findViewById(R.id.bVolver).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -110,6 +110,8 @@ public class Buscador extends Fragment {
                 String pais = "";
                 String universidad = "";
 
+                // sguardando en shared preferences la búsaqueda
+
                 editor.putString("pais", etPais.getText().toString());
                 editor.putString("uni", etUni.getText().toString());
                 editor.apply();
@@ -117,6 +119,8 @@ public class Buscador extends Fragment {
                 pais = etPais.getText().toString();
 
                 universidad = etUni.getText().toString();
+
+                // creando bundle para enviar datos entre fragmentos
 
                 Bundle bundle = new Bundle();
 
@@ -127,31 +131,25 @@ public class Buscador extends Fragment {
 
                 getParentFragmentManager().setFragmentResult("Bundlesito", bundle);
 
+                // cambiando de fragmento
+
                 FragmentManager fragmentManager = getParentFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.setReorderingAllowed(true);
 
                 ContainerUniversirares container = new ContainerUniversirares();
 
-                // Replace whatever is in the fragment_container view with this fragment
                 transaction.replace(R.id.fcvGeneral, container, null);
 
-                // Commit the transaction
+                // hacemos el cambio de fragmento
+
                 transaction.commit();
-
-                //toFragment.setArguments(args);
-
-                /*getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fcvGeneral, toFragment)
-                        .commit();*/
-
-
-                // Create new fragment and transaction
 
 
             }
         });
+
+        // botón para limpiar los textos de búsqueda y shared preferences
 
         Button clean = (Button) view.findViewById(R.id.clean);
 

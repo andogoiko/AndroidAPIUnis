@@ -18,6 +18,8 @@ public class weboView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webo_view);
 
+        // recogemos la url enviada desde el fragmento
+
         Intent myIntent = getIntent();
 
         String url = myIntent.getStringExtra("url");
@@ -26,9 +28,13 @@ public class weboView extends AppCompatActivity {
 
         enlace.setText(url);
 
+        // creamos un cliente al webview para que no nos abra el chrome y le pasamos la url
+
         WebView webview = (WebView) findViewById(R.id.internes);
         webview.setWebViewClient(new WebViewClient());
         webview.loadUrl(url);
+
+        // cerramos totalmente la actividad nueva y volvemos a la anterior que estaba en 2 plano
 
         Button cerrarNav = (Button) findViewById(R.id.salirNavegador);
 

@@ -54,6 +54,8 @@ public class AsyncTaskRunnerApi extends AsyncTask<String, String, ArrayList<Univ
             resp = e.getMessage();
         }
 
+        // el string json recibido d ela API lo tratamos y creamos la lista de universidades
+
         try {
             JSONArray jsonArray = new JSONArray(resp);
 
@@ -111,11 +113,15 @@ public class AsyncTaskRunnerApi extends AsyncTask<String, String, ArrayList<Univ
 
         String urlStr = "http://universities.hipolabs.com/search?country=" + pais + "&name=" + uni;
 
+        //hacemos una conexion http para recoger los datos d ela api
+
         URL urlConn = new URL(urlStr);
 
         HttpURLConnection conn = (HttpURLConnection) urlConn.openConnection();
 
         conn.setRequestMethod("GET");
+
+        //recorremos los datos recibidos en un buffer ( vienen en formato JSON)
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
             for (String line; (line = reader.readLine()) != null; ) {

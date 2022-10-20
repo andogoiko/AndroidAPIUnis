@@ -44,9 +44,14 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.nombre.setText(mValues.get(position).nombre);
 
         int thisUni = position;
+
+        // añado a cada botón de recyclerview un listener para abrir una nueva actividad con webview
+
         holder.web.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // lo hacemos mediante intent y me llevo el dato de url a la actividad para usarlo
 
                 Intent myIntent = new Intent(context, weboView.class);
 
