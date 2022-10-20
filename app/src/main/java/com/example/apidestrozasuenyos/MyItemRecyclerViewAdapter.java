@@ -1,7 +1,10 @@
 package com.example.apidestrozasuenyos;
 
+import static android.app.PendingIntent.getActivity;
+
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,8 +28,12 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         this.mValues = mValues;
     }
 
+    Context context;
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        context = parent.getContext();
 
         return new ViewHolder(FragmentUniversiraresBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
 
@@ -41,7 +48,10 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             @Override
             public void onClick(View view) {
 
-                Log.i("url", mValues.get(thisUni).web);
+                Intent myIntent = new Intent(context, weboView.class);
+
+                myIntent.putExtra("url", mValues.get(thisUni).web); //Optional parameters
+                context.startActivity(myIntent);
             }
         });
 

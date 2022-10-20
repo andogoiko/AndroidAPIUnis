@@ -153,6 +153,22 @@ public class Buscador extends Fragment {
             }
         });
 
+        Button clean = (Button) view.findViewById(R.id.clean);
+
+        clean.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View view) {
+
+                etPais.setText("");
+                etUni.setText("");
+
+                editor.putString("pais", "");
+                editor.putString("uni", "");
+                editor.apply();
+            }
+        });
+
         return view;
     }
 }
